@@ -1,0 +1,121 @@
+    <div class="footer"></div>
+    <script>
+        var browser = null;
+        if ('querySelector' in document && 'localStorage' in window && 'addEventListener' in window ) {
+            browser = 'html5';
+        }
+        else if (/MSIE (7|8)/.test(navigator.userAgent)) {
+            browser = 'legacyie';
+            document.write('<scr' + 'ipt src="<%= pathStatic %>/<%= vocab_dir %>/js/lib/vendors/legacy-ie-polyfills.js"></scr' + 'ipt>');
+        }
+        if (browser) {
+            var done = false,
+                script = document.createElement('script');
+            script.src = "<%= pathStatic %>/<%= vocab_dir %>/js/lib/vendors/require/require-2.1.0.js";
+            script.type = "text/javascript";
+            script.onload = script.onreadystatechange = function() {
+                if ( !done && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") ) {
+                    done = true;
+                    require.config({
+                        urlArgs: "v=<%= version %>"
+                    });
+                    require(['<%= pathStatic %>/<%= vocab_dir %>/js/all-'+browser+'.js'], function () {
+                        require(['app'], function (app) {
+
+                            var appData = {
+                                questions: [
+                                    {
+                                        fact: "Stress can make some people act out of character&#44; such as becoming overly irritable or losing their sense of humour.",
+                                        main: {
+                                            options: ["Never", "Almost never", "Sometimes", "Often", "Very often"],
+                                            text: "How often do you find yourself being irritable with friends and family?",
+                                            values: [0, 1, 2, 3, 4]
+                                        }
+                                    },
+                                    {
+                                        fact: "Along with insomnia&#44; people experiencing stress often feel constantly tired.",
+                                        main: {
+                                            options: ["Never", "Almost never", "Sometimes", "Often", "Very often"],
+                                            text: "Do you ever have trouble sleeping?",
+                                            values: [0, 1, 2, 3, 4]
+                                        }
+                                    },
+                                    {
+                                        fact: "Stress can lead people to feel a lack of control. They may also feel unable to cope with situations they are confronted with.",
+                                        main: {
+                                            options: ["Never", "Almost never", "Sometimes", "Often", "Very often"],
+                                            text: "Do you ever feel like you are unable to control the important events in your life?",
+                                            values: [0, 1, 2, 3, 4]
+                                        }
+                                    },
+                                    {
+                                        fact: "Stress can often cause people to feel sick and nauseous.",
+                                        main: {
+                                            options: ["Never", "Almost never", "Sometimes", "Often", "Very often"],
+                                            text: "Do you ever feel nauseous without being unwell?",
+                                            values: [0, 1, 2, 3, 4]
+                                        }
+                                    },
+                                    {
+                                        fact: "Stress can lead people to be increasingly withdrawn&#44; often leading to social isolation.",
+                                        main: {
+                                            options: ["Never", "Almost never", "Sometimes", "Often", "Very often"],
+                                            text: "How often do you feel uninterested in the things going on around you?",
+                                            values: [0, 1, 2, 3, 4]
+                                        }
+                                    },
+                                    {
+                                        fact: "Irregular eating patterns&#44; including loss of appetite and craving food when under pressure, can be symptoms of stress.",
+                                        main: {
+                                            options: ["Never", "Almost never", "Sometimes", "Often", "Very often"],
+                                            text: "Do you ever experience a lack of appetite?",
+                                            values: [0, 1, 2, 3, 4]
+                                        }
+                                    },
+                                    {
+                                        fact: "Stress can cause people to have difficulty making even basic decisions.",
+                                        main: {
+                                            options: ["Never", "Almost never", "Sometimes", "Often", "Very often"],
+                                            text: "How often do you feel unable to make decisions?",
+                                            values: [0, 1, 2, 3, 4]
+                                        }
+                                    },
+                                    {
+                                        fact: "A lack of concentration and an inability to finish a task before rushing on to another can be symptoms of stress.",
+                                        main: {
+                                            options: ["Never", "Almost never", "Sometimes", "Often", "Very often"],
+                                            text: "How often are you distracted from the task in hand?",
+                                            values: [0, 1, 2, 3, 4]
+                                        }
+                                    }
+                                ],
+                                results: [
+                                    {
+                                        description: "<p>Although you are generally coping well&#44; stress can be brought on very suddenly by particular events. It is therefore important that you invest in relationships with those people who will be able to help you through stressful times in the future.</p><p>When you feel stressed&#44; the following tips can help to identify and reduce your stress levels:</p>",
+                                        maxScore: "16",
+                                        summary: "<p>You are generally coping well with the day-to-day pressure you are under.</p>"
+                                    },
+                                    {
+                                        description: "<p>The following tips can help you to identify and reduce your stress levels&#44; whilst also preparing you for stressful times that might arise in the future:</p>",
+                                        maxScore: "24",
+                                        summary: "<p>You are showing some of the symptoms of stress&#44; suggesting that you may not always be coping with the day-to-day pressure you are under.</p>"
+                                    },
+                                    {
+                                        description: "<p>Stress can have a number of causes and often rises and falls in response to particular life events. The following tips will help you to identify&#44; and manage your stress levels:</p>",
+                                        maxScore: "32",
+                                        summary: "<p>You show many of the symptoms of stress&#44; suggesting that you may not be coping with the day-to-day pressure you are under.</p>"
+                                    }
+                                ],
+                                generalAdvice: "<p>1) Try to identify the source of your stress.</p><p>2) Talk to someone about your problems. Sharing your problems will help to reduce stress.</p><p>3) When you are stressed&#44; don’t just sit back and hope it will end – take control of the situation. Feeling like you are not in control is often what makes people feel most stressed.</p><p>4) Make sure you invest in relationships with friends and family&#44; as these are the people that will be able to help you through stressful times.</p><p>5) Exercise and relaxation techniques may not solve problems&#44; but they can help put you in the right frame of mind to do so.</p><p>If you are worried about stress&#44; you might also want to consider seeing a counsellor. You can find lots of information about counselling, as well as how to find a local counsellor at <a href='http://www.itsgoodtotalk.org.uk'>www.itsgoodtotalk.org.uk</a></p>"
+                            }
+
+                            app.init('<%= storyPageUrl %>', appData);
+                        });
+                    });
+                }
+            }
+            document.body.appendChild(script);
+        }
+    </script>
+</body>
+</html>
